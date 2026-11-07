@@ -1,0 +1,26 @@
+/* Admin experience pages (Requirements 16, 31). Table, form grid and ListEditor base styles live
+   in admin.css; this sheet adds the experience-specific layout. */
+
+.admin-experience-table__dates {
+  white-space: nowrap;
+}
+
+.admin-experience-table__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Start and end date share one grid cell: stacked on phones, side by side from 768px. */
+.admin-experience-form__dates {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .admin-experience-form__dates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}

@@ -1,0 +1,70 @@
+/* Admin message pages: MessagesPage and MessageDetailPage (Requirements 19, 31).
+   Table, badge, pagination and detail-list styles live in admin.css and components.css. */
+
+.admin-messages__filters {
+  margin-bottom: var(--space-4);
+}
+
+/* Unread rows: semibold text (admin.css) plus a tinted background and an accent edge, so the
+   difference does not rely on the label alone (19.9). */
+.admin-messages__row--unread {
+  background: var(--color-accent-soft);
+}
+
+.admin-messages__row--unread > :first-child {
+  box-shadow: inset 4px 0 0 var(--color-accent);
+}
+
+.admin-messages__read-label {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.admin-messages__email,
+.admin-messages__subject {
+  max-width: 18rem;
+}
+
+.admin-messages__received {
+  white-space: nowrap;
+}
+
+/* ---- Details ---- */
+
+.admin-message__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 56rem;
+}
+
+.admin-message__subject {
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.admin-message__status {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-message__body-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+
+.admin-message__body {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  .admin-message__subject {
+    font-size: var(--text-2xl);
+  }
+}

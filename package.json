@@ -1,0 +1,19 @@
+{
+  "name": "developer-portfolio-cms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Developer portfolio website with an administrator CMS (React + Vite client, Express API, PostgreSQL).",
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build": "npm --prefix client run build",
+    "migrate": "npm --prefix server run migrate",
+    "seed": "npm --prefix server run seed",
+    "test": "npm --prefix server test && npm --prefix client test",
+    "test:unit": "npm --prefix server run test:unit && npm --prefix client test"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10"
+  }
+}

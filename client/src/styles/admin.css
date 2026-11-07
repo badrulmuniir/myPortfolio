@@ -1,0 +1,579 @@
+/*
+ * admin.css — Admin_Dashboard shell and admin-only components.
+ * Imported once in main.jsx with the other global sheets (plain CSS is tiny; the admin
+ * JavaScript is still split into its own lazy chunk).
+ *
+ * Shell (sidebar collapses below 1024px, Requirement 31.2 / 33.2):
+ *   .admin-shell                        root grid (sidebar + main from 1024px)
+ *   .admin-sidebar[data-open="true"]    off-canvas below 1024px unless data-open="true"; fixed column from 1024px
+ *   .admin-sidebar__brand, .admin-sidebar__nav (nav aria-label="Admin"), .admin-sidebar__list,
+ *   .admin-sidebar__link ([aria-current="page"] or .is-active), .admin-sidebar__footer
+ *   .admin-backdrop                     click-to-close overlay shown with an open sidebar below 1024px
+ *   .admin-main, .admin-topbar, .admin-topbar__title, .admin-topbar__actions
+ *   .sidebar-toggle                     menu button in the top bar, hidden from 1024px
+ *   .admin-content                      padded page area
+ *   .admin-page-header, .admin-page-header__title, .admin-page-header__actions
+ *   .admin-panel                        white bordered section (forms, message detail)
+ *
+ * Dashboard:   .stat-grid, .stat-card, .stat-card__label, .stat-card__value
+ * Tables:      .table-scroll (horizontal scroll inside its container, 33.5), .data-table,
+ *              .data-table__actions (Edit/Delete cell, never wraps), .data-table__row--unread,
+ *              .data-table__numeric
+ * Forms:       .admin-form, .form-grid (1 → 2 columns from 768px), .form-grid__full (spans both)
+ * ListEditor:  .list-editor, .list-editor__list, .list-editor__row, .list-editor__index,
+ *              .list-editor__input, .list-editor__controls, .list-editor__add
+ * TagInput:    .tag-input, .tag-input__chips, .tag-input__chip, .tag-input__remove,
+ *              .tag-input__field, .tag-input__suggestions (role="listbox"),
+ *              .tag-input__suggestion ([aria-selected="true"] = highlighted)
+ * Paging:      .pagination, .pagination__info
+ * Guards:      .admin-status-page (AuthStatusScreen loading / error screen)
+ * Login:       .login-page, .login-card, .login-card__title
+ */
+
+/* ---- Shell ---- */
+
+.admin-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+
+.admin-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: var(--z-sidebar);
+  width: min(var(--sidebar-width), 85vw);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  overflow-y: auto;
+  background: var(--color-inverse-bg);
+  color: var(--color-inverse-text);
+  transform: translateX(-100%);
+  visibility: hidden; /* closed sidebar is out of the tab order */
+  transition: transform var(--duration-base) var(--ease-standard),
+    visibility 0s linear var(--duration-base);
+}
+
+.admin-sidebar[data-open='true'] {
+  transform: none;
+  visibility: visible;
+  transition: transform var(--duration-base) var(--ease-standard), visibility 0s;
+}
+
+.admin-sidebar :focus-visible {
+  outline-color: var(--color-focus-inverse);
+}
+
+.admin-sidebar__brand {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-on-accent);
+  text-decoration: none;
+}
+
+.admin-sidebar__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.admin-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-inverse-text);
+  text-decoration: none;
+  font-weight: var(--weight-medium);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.admin-sidebar__link:hover {
+  background: var(--color-inverse-bg-active);
+  color: var(--color-on-accent);
+}
+
+.admin-sidebar__link[aria-current='page'],
+.admin-sidebar__link.is-active {
+  background: var(--color-inverse-bg-active);
+  color: var(--color-on-accent);
+  font-weight: var(--weight-semibold);
+  box-shadow: inset 3px 0 0 var(--color-focus-inverse);
+}
+
+.admin-sidebar__footer {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-inverse-bg-active);
+  color: var(--color-inverse-muted);
+  font-size: var(--text-sm);
+}
+
+.admin-sidebar__footer .btn--secondary {
+  background: transparent;
+  color: var(--color-inverse-text);
+  border-color: var(--color-inverse-muted);
+}
+
+.admin-sidebar__footer .btn--secondary:hover {
+  background: var(--color-inverse-bg-active);
+  color: var(--color-on-accent);
+}
+
+.admin-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-sidebar) - 1);
+  background: rgb(17 24 39 / 0.45);
+  border: 0;
+}
+
+.admin-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--header-height);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.admin-topbar__title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  min-width: 0;
+}
+
+.admin-topbar__actions {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sidebar-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-medium);
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-surface-muted);
+}
+
+.admin-content {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--content-max);
+  min-width: 0;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+}
+
+.admin-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.admin-page-header__title {
+  font-size: var(--text-2xl);
+}
+
+.admin-page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.admin-panel {
+  min-width: 0;
+  padding: var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 768px) {
+  .admin-content {
+    padding: var(--space-6) var(--space-5) var(--space-7);
+  }
+}
+
+@media (min-width: 1024px) {
+  .admin-shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  }
+
+  .admin-sidebar,
+  .admin-sidebar[data-open='true'],
+  .admin-sidebar[data-open='false'] {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: auto;
+    transform: none;
+    visibility: visible;
+    transition: none;
+  }
+
+  .admin-backdrop,
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .admin-content {
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+}
+
+/* ---- Dashboard stats ---- */
+
+.stat-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+}
+
+.stat-card__value {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+/* ---- Data tables ---- */
+
+/* Wide tables scroll inside this wrapper; the page itself never scrolls sideways (33.5). */
+.table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.data-table {
+  width: 100%;
+  min-width: var(--table-min-width, 40rem); /* below this width the wrapper scrolls */
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.data-table thead th {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+.data-table tbody tr:last-child td,
+.data-table tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-surface);
+}
+
+.data-table__row--unread td,
+.data-table__row--unread th {
+  font-weight: var(--weight-semibold);
+}
+
+.data-table__numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table__actions {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.data-table__actions > * + * {
+  margin-left: var(--space-2);
+}
+
+/* ---- Admin forms ---- */
+
+.admin-form {
+  max-width: 56rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form-grid__full {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- ListEditor (features, responsibilities) ---- */
+
+.list-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.list-editor__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.list-editor__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.list-editor__index {
+  flex-shrink: 0;
+  min-width: 1.75rem;
+  padding-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.list-editor__input {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.list-editor__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.list-editor__add {
+  align-self: flex-start;
+}
+
+/* ---- TagInput (technologies) ---- */
+
+.tag-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tag-input__chips {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag-input__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-3);
+  background: var(--color-chip-bg);
+  color: var(--color-chip-text);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.tag-input__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  margin: calc(-1 * var(--space-2)) 0;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-pill);
+  color: inherit;
+  line-height: 1;
+}
+
+.tag-input__remove:hover {
+  background: rgb(30 58 138 / 0.12);
+}
+
+.tag-input__field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag-input__field .form-control {
+  flex: 1 1 12rem;
+  min-width: 0;
+  width: auto;
+}
+
+.tag-input__suggestions {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1);
+  max-height: 14rem;
+  overflow-y: auto;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.tag-input__suggestion {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.tag-input__suggestion:hover,
+.tag-input__suggestion[aria-selected='true'] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .tag-input__remove {
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    margin: 0;
+  }
+
+  .tag-input__suggestion {
+    min-height: auto;
+  }
+}
+
+/* ---- Pagination ---- */
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.pagination__info {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ---- Route-guard loading / error screen (AuthStatusScreen) ---- */
+
+.admin-status-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-4);
+}
+
+/* ---- Login ---- */
+
+.login-page {
+  flex: 1 0 auto;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-4);
+  background: var(--color-surface);
+}
+
+.login-card {
+  width: min(100%, 26rem);
+  padding: var(--space-6) var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.login-card__title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-5);
+}

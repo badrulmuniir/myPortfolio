@@ -1,0 +1,45 @@
+/*
+ * admin-skills.css — Admin skill management pages (SkillsListPage, SkillFormPage).
+ *
+ *   .admin-skills__intro         short help text above the table
+ *   .admin-skills__table         DataTable wrapper (sets the table's minimum width)
+ *   .admin-skills__move          Move up / Move down buttons
+ *   .admin-skills__move-text     visible "Up" / "Down" text, hidden below 768px (arrow only)
+ *   .admin-skills-form__errors   errors for fields the form does not show
+ *   .admin-skills-form__actions  submit and cancel buttons
+ */
+
+.admin-skills__intro {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.admin-skills__table {
+  --table-min-width: 44rem;
+}
+
+.admin-skills__move {
+  gap: var(--space-1);
+}
+
+.admin-skills__move-text {
+  display: none;
+}
+
+.admin-skills-form__errors {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.admin-skills-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .admin-skills__move-text {
+    display: inline;
+  }
+}

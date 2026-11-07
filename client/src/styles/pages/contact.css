@@ -1,0 +1,91 @@
+/*
+ * contact.css — Contact page (Requirement 29). Mobile first; tokens only.
+ *
+ *   .contact-page                page root (with .container)
+ *   .contact-layout              form and contact details (stacked → 2 columns from 1024px)
+ *   .contact-section__title      h2 of each section
+ *   .contact-form, .contact-form__status
+ *   .contact-details, .contact-details__list, .contact-details__item,
+ *   .contact-details__label, .contact-details__link
+ *
+ * The Honeypot_Field uses the shared .hp-field rule in components.css (29.9).
+ */
+
+.contact-page {
+  padding-bottom: var(--space-7);
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.contact-section__title {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+/* Anchor for the off-screen honeypot, so it never widens the page. */
+.contact-form {
+  position: relative;
+  max-width: 40rem;
+}
+
+.contact-form__status:empty {
+  display: none;
+}
+
+.contact-details {
+  min-width: 0;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  align-self: start;
+}
+
+.contact-details__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-details__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.contact-details__label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+}
+
+/* Long emails and URLs wrap inside the card (33.7). */
+.contact-details__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (min-width: 768px) {
+  .contact-details__link {
+    min-height: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contact-layout {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--space-7);
+  }
+}

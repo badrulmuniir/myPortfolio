@@ -1,0 +1,32 @@
+/* Admin_Dashboard overview (Requirement 20). The grid and card base styles live in admin.css
+   (.stat-grid, .stat-card); this sheet makes each card a list item and a link. */
+
+.admin-overview-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-overview-grid__item {
+  display: flex;
+  min-width: 0;
+}
+
+.admin-overview-card {
+  flex: 1 1 auto;
+  min-height: var(--tap-target);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.admin-overview-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-overview-card:hover .stat-card__label {
+  color: var(--color-accent);
+  text-decoration: underline;
+}

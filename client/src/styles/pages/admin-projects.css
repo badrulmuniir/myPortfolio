@@ -1,0 +1,31 @@
+/* Admin project pages: ProjectsListPage and ProjectFormPage (Requirements 13, 31).
+   Table, form grid, ListEditor and TagInput styles live in admin.css. */
+
+/* Status cell: the Published/Unpublished label and the publish toggle (31.4). */
+.admin-projects__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-projects__status .badge {
+  min-width: 6.5rem;
+  justify-content: center;
+}
+
+.admin-project-form__textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+/* Lines the checkbox up with the inputs next to it in the two-column grid. */
+.admin-project-form__published {
+  justify-content: flex-end;
+}
+
+@media (min-width: 768px) {
+  .admin-projects__status {
+    flex-wrap: nowrap;
+  }
+}

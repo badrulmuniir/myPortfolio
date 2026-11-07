@@ -1,0 +1,16 @@
+# Dependencies (every package)
+node_modules/
+
+# Vite build output of the Frontend
+client/dist/
+
+# Environment files: ignore all, keep the committed examples
+.env
+.env.*
+!.env.example
+
+# Logs and OS/editor files
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db

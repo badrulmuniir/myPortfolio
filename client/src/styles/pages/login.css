@@ -1,0 +1,16 @@
+/* Login page (Requirement 30). The page and card layout live in admin.css. */
+
+/* Session-expired notice at the top of the card (6.4). */
+.login-notice {
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  font-weight: var(--weight-medium);
+}
+
+.login-form .btn {
+  width: 100%;
+}

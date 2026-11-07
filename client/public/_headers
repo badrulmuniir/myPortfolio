@@ -1,0 +1,33 @@
+# Security headers for the static Frontend host, Netlify `_headers` format (Cloudflare Pages
+# reads the same format). Vite copies this file into dist/. The same values are in
+# client/deploy/vercel.json and client/deploy/nginx.conf; keep the three files in sync.
+#
+# BEFORE DEPLOYING: replace https://api.example.com in `connect-src` with the origin of your
+# API_Server, that is the scheme and host (and port, if any) of VITE_API_BASE_URL without the
+# /api path. With the placeholder left in, the browser blocks every API request.
+#
+# Content-Security-Policy, directive by directive:
+#   default-src 'self'          anything not listed below comes only from this origin
+#   script-src 'self'           the build has no inline scripts and no eval; only /assets/*.js
+#   style-src 'self'            styles are the built /assets/*.css files only; the app sets no
+#                               style attributes and injects no <style> elements, so
+#                               'unsafe-inline' is not needed
+#   img-src 'self' data: https: project, profile and skill images are external https URLs;
+#                               data: covers the placeholder SVGs that Vite inlines as data URIs
+#   font-src 'self'             the app uses system fonts and loads no web fonts
+#   connect-src 'self' <API>    fetch() goes only to the API_Server origin (placeholder above)
+#   object-src 'none'           no plugins
+#   base-uri 'self'             blocks <base> tag injection
+#   form-action 'self'          forms submit through fetch(); no cross-origin form posts
+#   frame-ancestors 'none'      the site cannot be framed (same intent as X-Frame-Options)
+#   upgrade-insecure-requests   http:// image URLs are requested over https://; an image that
+#                               fails to load shows the placeholder image instead
+#
+# Strict-Transport-Security is not set here because Netlify and Cloudflare Pages already send
+# it for HTTPS sites.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://api.example.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()

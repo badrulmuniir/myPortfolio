@@ -1,0 +1,173 @@
+/*
+ * tokens.css — design tokens (CSS custom properties) for the whole Frontend.
+ *
+ * Every other stylesheet reads these variables; no raw colors elsewhere.
+ *
+ * Breakpoints (mobile-first, Requirement 33.2). Custom properties cannot be
+ * used inside media queries, so every stylesheet writes them as literals:
+ *   mobile   < 768px   (default rules, no media query)
+ *   tablet   >= 768px  @media (min-width: 768px)
+ *   desktop  >= 1024px @media (min-width: 1024px)
+ *
+ * Contrast (Requirement 34.1, 34.3, WCAG 2.1 AA): each text/background pair that
+ * the stylesheets use is annotated below as
+ *   @contrast <foreground> on <background>: <ratio> (min <threshold>)
+ * where threshold 4.5 = normal text, 3 = large text / UI boundaries / focus.
+ * tokens.test.js recomputes each ratio from the hex values and fails if a ratio
+ * is wrong or below its threshold. Keep the annotations in sync when editing.
+ *
+ * Color tokens:
+ *   --color-bg, --color-surface, --color-surface-muted      page and panel backgrounds
+ *   --color-text, --color-text-muted                        body and secondary text
+ *   --color-border                                          boundaries of controls (inputs, outlined buttons)
+ *   --color-border-subtle                                   decorative dividers only (not control boundaries)
+ *   --color-accent, --color-accent-hover, --color-accent-soft, --color-on-accent
+ *   --color-focus, --color-focus-inverse                    focus outlines on light / dark backgrounds
+ *   --color-success(-bg), --color-error(-bg), --color-danger-hover, --color-warning(-bg)
+ *   --color-chip-bg, --color-chip-text                      technology chips and badges
+ *   --color-inverse-bg, --color-inverse-bg-active, --color-inverse-text, --color-inverse-muted   admin sidebar
+ */
+
+:root {
+  /* ---- Colors ---- */
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-muted: #f3f4f6;
+
+  --color-text: #1f2937;
+  /* @contrast --color-text on --color-bg: 14.68 (min 4.5) */
+  /* @contrast --color-text on --color-surface: 14.03 (min 4.5) */
+  /* @contrast --color-text on --color-surface-muted: 13.34 (min 4.5) */
+  /* @contrast --color-text on --color-accent-soft: 13.49 (min 4.5) */
+  /* @contrast --color-text on --color-error-bg: 13.42 (min 4.5) */
+  /* @contrast --color-text on --color-success-bg: 14.02 (min 4.5) */
+
+  --color-text-muted: #4b5563;
+  /* @contrast --color-text-muted on --color-bg: 7.56 (min 4.5) */
+  /* @contrast --color-text-muted on --color-surface: 7.22 (min 4.5) */
+  /* @contrast --color-text-muted on --color-surface-muted: 6.87 (min 4.5) */
+
+  --color-border: #6b7280;
+  /* @contrast --color-border on --color-bg: 4.83 (min 3) */
+  /* @contrast --color-border on --color-surface: 4.62 (min 3) */
+  /* @contrast --color-border on --color-surface-muted: 4.39 (min 3) */
+  --color-border-subtle: #e5e7eb;
+
+  --color-accent: #1d4ed8;
+  /* @contrast --color-accent on --color-bg: 6.70 (min 4.5) */
+  /* @contrast --color-accent on --color-surface: 6.41 (min 4.5) */
+  /* @contrast --color-accent on --color-surface-muted: 6.09 (min 4.5) */
+  /* @contrast --color-accent on --color-accent-soft: 6.16 (min 4.5) */
+  --color-accent-hover: #1e40af;
+  /* @contrast --color-accent-hover on --color-bg: 8.72 (min 4.5) */
+  /* @contrast --color-accent-hover on --color-surface: 8.34 (min 4.5) */
+  --color-accent-soft: #eff6ff;
+  --color-on-accent: #ffffff;
+  /* @contrast --color-on-accent on --color-accent: 6.70 (min 4.5) */
+  /* @contrast --color-on-accent on --color-accent-hover: 8.72 (min 4.5) */
+
+  --color-focus: #1d4ed8;
+  /* @contrast --color-focus on --color-bg: 6.70 (min 3) */
+  /* @contrast --color-focus on --color-surface: 6.41 (min 3) */
+  /* @contrast --color-focus on --color-surface-muted: 6.09 (min 3) */
+  /* @contrast --color-focus on --color-accent-soft: 6.16 (min 3) */
+  /* @contrast --color-focus on --color-chip-bg: 5.49 (min 3) */
+  /* @contrast --color-focus on --color-error-bg: 6.13 (min 3) */
+  /* @contrast --color-focus on --color-success-bg: 6.40 (min 3) */
+  /* @contrast --color-focus on --color-warning-bg: 6.46 (min 3) */
+  --color-focus-inverse: #93c5fd;
+  /* @contrast --color-focus-inverse on --color-inverse-bg: 9.84 (min 3) */
+  /* @contrast --color-focus-inverse on --color-inverse-bg-active: 8.14 (min 3) */
+
+  --color-success: #166534;
+  --color-success-bg: #f0fdf4;
+  /* @contrast --color-success on --color-success-bg: 6.81 (min 4.5) */
+  /* @contrast --color-success on --color-bg: 7.13 (min 4.5) */
+
+  --color-error: #b91c1c;
+  --color-error-bg: #fef2f2;
+  /* @contrast --color-error on --color-bg: 6.47 (min 4.5) */
+  /* @contrast --color-error on --color-surface: 6.18 (min 4.5) */
+  /* @contrast --color-error on --color-error-bg: 5.91 (min 4.5) */
+  /* @contrast --color-on-accent on --color-error: 6.47 (min 4.5) */
+  --color-danger-hover: #991b1b;
+  /* @contrast --color-on-accent on --color-danger-hover: 8.31 (min 4.5) */
+
+  --color-warning: #92400e;
+  --color-warning-bg: #fffbeb;
+  /* @contrast --color-warning on --color-warning-bg: 6.84 (min 4.5) */
+  /* @contrast --color-warning on --color-bg: 7.09 (min 4.5) */
+
+  --color-chip-bg: #dbeafe;
+  --color-chip-text: #1e3a8a;
+  /* @contrast --color-chip-text on --color-chip-bg: 8.49 (min 4.5) */
+
+  --color-inverse-bg: #111827;
+  --color-inverse-bg-active: #1f2937;
+  --color-inverse-text: #e5e7eb;
+  /* @contrast --color-inverse-text on --color-inverse-bg: 14.33 (min 4.5) */
+  /* @contrast --color-inverse-text on --color-inverse-bg-active: 11.86 (min 4.5) */
+  --color-inverse-muted: #9ca3af;
+  /* @contrast --color-inverse-muted on --color-inverse-bg: 6.99 (min 4.5) */
+  /* @contrast --color-on-accent on --color-inverse-bg-active: 14.68 (min 4.5) */
+
+  /* ---- Typography ---- */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --text-3xl: clamp(1.875rem, 1.5rem + 1.8vw, 2.75rem);
+  --text-4xl: clamp(2.25rem, 1.7rem + 2.6vw, 3.5rem);
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* ---- Shape and depth ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(17 24 39 / 0.06);
+  --shadow-md: 0 4px 12px rgb(17 24 39 / 0.08);
+  --shadow-lg: 0 12px 32px rgb(17 24 39 / 0.16);
+
+  /* ---- Motion (disabled by the reduced-motion rule in base.css) ---- */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- Layout ---- */
+  --content-max: 72rem;
+  --content-narrow: 44rem;
+  --header-height: 4rem;
+  --sidebar-width: 15rem;
+  --tap-target: 44px; /* minimum target size below 768px (Requirement 33.4) */
+  --focus-width: 3px; /* focus outline thickness (Requirement 34.3) */
+
+  /* ---- Stacking ---- */
+  --z-header: 100;
+  --z-sidebar: 200;
+  --z-notification: 300;
+  --z-dialog: 400;
+  --z-skip-link: 500;
+}

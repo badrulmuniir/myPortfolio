@@ -1,0 +1,20 @@
+/*
+ * projects.css — Projects page (Requirements 25, 33.3).
+ *
+ * .projects-grid   the <ul role="list"> of project cards; columns come from .grid--projects
+ *                  (1 / 2 / 3 columns). Each <li> stretches its card to the row height so
+ *                  card footers line up.
+ */
+
+.projects-grid {
+  margin: 0;
+}
+
+.projects-grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+.projects-grid > li > .project-card {
+  flex: 1 1 auto;
+}

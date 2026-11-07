@@ -1,0 +1,392 @@
+/*
+ * layout.css — page structure for the Public_Site plus layout utilities.
+ * Mobile first: default rules are the mobile layout (< 768px), then
+ * @media (min-width: 768px) for tablet and @media (min-width: 1024px) for desktop (33.2).
+ *
+ * Structure classes:
+ *   .site-shell                      PublicLayout root (column flex, footer at bottom)
+ *   .container, .container--narrow   centred, padded content width
+ *   .site-header, .site-header__inner, .site-header__brand
+ *   .nav-toggle                      menu button, shown below 768px only (aria-expanded on it)
+ *   .site-nav[data-open="true"]      main nav; collapsed below 768px unless data-open="true", inline from 768px
+ *   .site-nav__list, .site-nav__link (active link: [aria-current="page"] or .is-active)
+ *   .site-main                       <main id="main" tabIndex="-1">
+ *   .site-footer, .site-footer__inner, .site-footer__links, .site-footer__text
+ *   .section, .section--muted, .section__header, .section__title, .section__lead
+ *   .page-header, .page-header__title, .page-header__lead
+ *   .hero, .hero__title, .hero__subtitle, .hero__actions, .hero__media
+ *
+ * Utilities:
+ *   .stack (vertical rhythm; --stack-gap), .stack--sm, .stack--lg
+ *   .cluster (wrapping inline row; --cluster-gap), .cluster--between
+ *   .grid (auto-fit cards), .grid--2 (1 → 2 columns from 768px)
+ *   .grid--projects (1 / 2 / 3 equal columns, partial last row keeps width, 33.3)
+ *   .split (1 column → media + text side by side from 768px)
+ */
+
+/* ---- Shell ---- */
+
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+.container--narrow {
+  max-width: var(--content-narrow);
+}
+
+/* ---- Header and navigation ---- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  min-height: var(--header-height);
+  padding-block: var(--space-2);
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-header__brand:hover {
+  color: var(--color-accent);
+}
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-medium);
+}
+
+.nav-toggle:hover {
+  background: var(--color-surface-muted);
+}
+
+/* Mobile: the nav takes the full row under the brand and is collapsed by default. */
+.site-nav {
+  flex-basis: 100%;
+  display: none;
+}
+
+.site-nav[data-open='true'] {
+  display: block;
+}
+
+.site-nav__list {
+  list-style: none;
+  padding: 0 0 var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.site-nav__link {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.site-nav__link:hover {
+  color: var(--color-accent);
+  background: var(--color-surface-muted);
+}
+
+.site-nav__link[aria-current='page'],
+.site-nav__link.is-active {
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  font-weight: var(--weight-semibold);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--space-5);
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .site-nav,
+  .site-nav[data-open='true'],
+  .site-nav[data-open='false'] {
+    display: block;
+    flex-basis: auto;
+  }
+
+  .site-nav__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .site-nav__link {
+    min-height: auto;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Active link also gets an underline bar so the state is not color-only. */
+  .site-nav__link[aria-current='page'],
+  .site-nav__link.is-active {
+    box-shadow: inset 0 -2px 0 var(--color-accent);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+}
+
+/* ---- Main and footer ---- */
+
+.site-main {
+  flex: 1 0 auto;
+  width: 100%;
+  min-width: 0;
+}
+
+.site-footer {
+  margin-top: auto;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border-subtle);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+}
+
+.site-footer__links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+}
+
+.site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+}
+
+.site-footer__text {
+  max-width: var(--content-narrow);
+}
+
+@media (min-width: 768px) {
+  .site-footer__inner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-footer__links a {
+    min-height: auto;
+  }
+}
+
+/* ---- Sections and page headers ---- */
+
+.section {
+  padding-block: var(--space-7);
+}
+
+.section--muted {
+  background: var(--color-surface);
+}
+
+.section__header {
+  margin-bottom: var(--space-5);
+}
+
+.section__title {
+  font-size: var(--text-2xl);
+}
+
+.section__lead,
+.page-header__lead {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  max-width: var(--content-narrow);
+}
+
+.page-header {
+  padding-block: var(--space-7) var(--space-5);
+}
+
+.page-header__title {
+  font-size: var(--text-3xl);
+}
+
+.hero {
+  padding-block: var(--space-7);
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.hero__title {
+  font-size: var(--text-4xl);
+}
+
+.hero__subtitle {
+  margin-top: var(--space-2);
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+}
+
+.hero__actions {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.hero__media {
+  justify-self: center;
+  width: min(100%, 18rem);
+}
+
+.hero__media img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-pill);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    padding-block: var(--space-8);
+  }
+
+  .hero__media {
+    justify-self: end;
+  }
+}
+
+/* ---- Layout utilities ---- */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, var(--space-4));
+}
+
+.stack--sm {
+  --stack-gap: var(--space-2);
+}
+
+.stack--lg {
+  --stack-gap: var(--space-6);
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cluster-gap, var(--space-3));
+}
+
+.cluster--between {
+  justify-content: space-between;
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap, var(--space-5));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.grid > *,
+.grid--2 > *,
+.grid--projects > *,
+.split > * {
+  min-width: 0;
+}
+
+.grid--2 {
+  display: grid;
+  gap: var(--grid-gap, var(--space-5));
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Projects grid: equal-width columns, 1 / 2 / 3 per breakpoint (33.3).
+   A partial last row keeps the same column width because the track count is fixed. */
+.grid--projects {
+  --cols: 1;
+  display: grid;
+  gap: var(--grid-gap, var(--space-5));
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+}
+
+.split {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 768px) {
+  .grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid--projects {
+    --cols: 2;
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid--projects {
+    --cols: 3;
+  }
+}

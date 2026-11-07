@@ -1,0 +1,58 @@
+/*
+ * about.css — About page (Requirement 23). Imported by pages/public/AboutPage.jsx.
+ *
+ *   .about-page                       page root
+ *   .about-section                    one Profile, education, state or empty section (tighter than .section)
+ *   .about-section__title             section h2
+ *   .about-section__text              Profile text (.prose .pre-line)
+ *   .about-education                  list of Education_Records
+ *   .about-education__item            one record
+ *   .about-education__qualification   record h3
+ *   .about-education__institution     institution line
+ */
+
+.about-section {
+  padding-block: var(--space-5);
+}
+
+.about-section + .about-section {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.about-section__title {
+  margin-bottom: var(--space-3);
+}
+
+.about-section__text {
+  color: var(--color-text);
+}
+
+.about-education {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.about-education__item {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.about-education__qualification {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.about-education__institution {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .about-section {
+    padding-block: var(--space-6);
+  }
+}

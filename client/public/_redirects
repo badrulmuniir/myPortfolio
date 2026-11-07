@@ -1,0 +1,5 @@
+# SPA fallback for Netlify (Requirement 36.1). Vite copies this file into dist/.
+# Existing files (index.html, /assets/*) are served as they are; every other path, such as
+# /projects/<slug> or /admin/projects, gets index.html with status 200 so React Router
+# renders the route (unknown routes show the app's Not Found page).
+/*    /index.html    200

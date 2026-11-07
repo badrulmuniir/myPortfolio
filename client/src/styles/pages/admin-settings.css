@@ -1,0 +1,93 @@
+/* Admin_Dashboard Settings page (Requirements 11, 31). Form grid and panel base styles live in
+   admin.css (.form-grid, .admin-panel); this sheet adds the Social_Links editor and the
+   "no changes" notice. */
+
+.admin-settings-form__notice {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.admin-settings-links__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.admin-settings-links__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.admin-settings-links__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.admin-settings-links__name {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+/* Label and URL stack on small screens; side by side from 768px with the URL wider. */
+.admin-settings-links__fields {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.admin-settings-links__fields .form-field {
+  min-width: 0;
+}
+
+.admin-settings-links__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.admin-settings-links__add {
+  align-self: flex-start;
+}
+
+@media (min-width: 768px) {
+  .admin-settings-links__fields {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .admin-settings-links__row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .admin-settings-links__name {
+    flex: 0 0 4rem;
+    padding-top: var(--space-2);
+  }
+
+  .admin-settings-links__fields {
+    flex: 1 1 24rem;
+  }
+
+  .admin-settings-links__row-error {
+    flex-basis: 100%;
+  }
+
+  /* Line the buttons up with the inputs, below the visible field labels. */
+  .admin-settings-links__controls {
+    padding-top: var(--space-6);
+  }
+}

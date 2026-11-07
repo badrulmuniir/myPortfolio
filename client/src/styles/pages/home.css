@@ -1,0 +1,45 @@
+/*
+ * home.css — Home page (Requirement 22). Builds on .hero / .hero__* from layout.css.
+ *
+ *   .home-hero                 the hero section (min height so loading/error states don't collapse it)
+ *   .home-hero__content        text column: name, title, intro, social links, actions
+ *   .home-hero__intro          full hero_introduction (line breaks kept by .pre-line)
+ *   .home-hero__social         list of the GitHub / LinkedIn links
+ *   .home-hero__social-link    one social link
+ */
+
+.home-hero {
+  min-height: 20rem;
+}
+
+.home-hero__content {
+  min-width: 0;
+}
+
+.home-hero__intro {
+  margin-top: var(--space-4);
+  max-width: var(--content-narrow);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.home-hero__social {
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.home-hero__social-link {
+  display: inline-flex;
+  align-items: center;
+  font-weight: var(--weight-semibold);
+}
+
+@media (max-width: 767.98px) {
+  .home-hero__social-link {
+    min-height: var(--tap-target);
+  }
+}

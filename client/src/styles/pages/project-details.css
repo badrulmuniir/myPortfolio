@@ -1,0 +1,74 @@
+/*
+ * project-details.css — Project Details page (Requirement 26). Mobile first; tokens only.
+ *
+ *   .project-details-page                 page root (with .container)
+ *   .project-details-page__back, __back-link   "Back to projects" link shown in every state (26.5)
+ *   .project-details                      loaded Project (<article>)
+ *   .project-details__header, __links     title and GitHub / Live Demo buttons
+ *   .project-details__media, __image      Project image or placeholder (26.6)
+ *   .project-details__sections            stack of h2 sections
+ *   .project-details__section, __section-title, __text, __features
+ */
+
+.project-details-page {
+  padding-bottom: var(--space-7);
+}
+
+.project-details-page__back {
+  padding-top: var(--space-5);
+}
+
+.project-details-page__back-link {
+  font-weight: var(--weight-semibold);
+}
+
+.project-details-page .page-header {
+  padding-top: var(--space-5);
+}
+
+.project-details__links {
+  margin-top: var(--space-4);
+}
+
+.project-details__media {
+  margin-bottom: var(--space-6);
+}
+
+.project-details__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-muted);
+}
+
+.project-details__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--content-narrow);
+}
+
+.project-details__section-title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.project-details__text {
+  margin: 0;
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+}
+
+.project-details__features {
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .project-details__sections {
+    gap: var(--space-7);
+  }
+}

@@ -1,0 +1,24 @@
+/* Admin_Dashboard education pages (Requirements 17, 31). Table, form grid and panel base
+   styles live in admin.css (.data-table, .form-grid, .admin-panel); this sheet adds the
+   education-specific details. */
+
+/* Four text columns plus actions: allow a narrower table before the wrapper scrolls (33.5). */
+.admin-education-table {
+  --table-min-width: 36rem;
+}
+
+.admin-education-table__years {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Year inputs hold four digits; keep them from stretching across a wide column. */
+.admin-education-form__year .form-control {
+  max-width: 12rem;
+}
+
+@media (min-width: 768px) {
+  .admin-education-form__year .form-control {
+    max-width: 10rem;
+  }
+}
